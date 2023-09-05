@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strings"
 )
 
 func renderTemplate(w http.ResponseWriter, name string, data any) {
@@ -16,6 +17,6 @@ func renderTemplate(w http.ResponseWriter, name string, data any) {
 		log.Println("failed to execute template")
 		return
 	}
-	log.Println(name + "template executed successfully")
+	log.Println(strings.ToUpper(name) + " template executed successfully")
 
 }
