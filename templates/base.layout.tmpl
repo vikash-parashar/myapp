@@ -8,10 +8,13 @@
             integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
         {{block "title" .}}
         {{end}}
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+        </style>
         {{block "css" .}}
         {{end}}
     </head>
-    <body class="text-danger bg-info">
+    <body class="text-light bg-warning" style="font-family: 'Comfortaa', cursive;">
 
     {{block "content" .}}
     {{end}}
