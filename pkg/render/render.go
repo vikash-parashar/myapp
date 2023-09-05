@@ -11,23 +11,18 @@ import (
 var tc = make(map[string]*template.Template)
 
 func RenderTemplate(w http.ResponseWriter, t string, data any) {
-	var templates []string
 	var tmp *template.Template
 	var err error
 
 	tmp, ok := tc[t]
-	templates = []string{
-		fmt.Sprintf("./templates/%s.page.tmpl", t),
-		"./templates/base.layout.tmpl",
-	}
+
 	if !ok {
-		tmp, err = createTemplateCache(templates)
+		err = createTemplateCache(t)
 		if err != nil {
 			log.Println("failed to parse templates . . . . !")
 			return
 		}
 		log.Println("adding template into templates cache")
-		tc[t] = tmp
 	} else {
 		log.Println("using cache template")
 
@@ -40,10 +35,15 @@ func RenderTemplate(w http.ResponseWriter, t string, data any) {
 
 }
 
-func createTemplateCache(tmpls []string) (*template.Template, error) {
-	tmp, err := template.ParseFiles(tmpls...)
-	if err != nil {
-		return tmp, err
+func createTemplateCache(t string) error {
+	templates := []string{
+		fmt.Sprintf("./templates/%s.page.tmpl", t),
+		"./templates/base.layout.tmpl",
 	}
-	return tmp, nil
+	tmp, err := template.ParseFiles(templates...)
+	if err != nil {
+		return err
+	}
+	tc[t] = tmp
+	return nil
 }
