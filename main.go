@@ -12,7 +12,7 @@ const (
 func main() {
 
 	http.HandleFunc("/", Home)
-	http.HandleFunc("/about", Home)
+	http.HandleFunc("/about", About)
 	log.Println("starting our application on port : ", port)
 	if err := http.ListenAndServe(port, nil); err != nil {
 		log.Println("failed to start application")
