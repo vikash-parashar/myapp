@@ -2,8 +2,9 @@ package main
 
 import (
 	"log"
-	"myapp/pkg/handlers"
 	"net/http"
+
+	"github.com/vikash-parashar/myapp/pkg/handlers"
 )
 
 const (

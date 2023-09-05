@@ -1,8 +1,9 @@
 package handlers
 
 import (
-	"myapp/pkg/render"
 	"net/http"
+
+	"github.com/vikash-parashar/myapp/pkg/render"
 )
 
 func Home(w http.ResponseWriter, r *http.Request) {
