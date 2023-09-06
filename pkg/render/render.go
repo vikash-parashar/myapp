@@ -57,8 +57,6 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 	if err != nil {
 		return myCache, err
 	}
-
-	fmt.Println("Total Pages Found : ", len(pages))
 	for _, page := range pages {
 		name := filepath.Base(page)
 
@@ -73,13 +71,13 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 		if err != nil {
 			return myCache, err
 		}
-		fmt.Println("Total LayoutMatches Found : ", len(layoutMatches))
 		if len(layoutMatches) > 0 {
 			ts, err = ts.ParseGlob("./templates/*.layout.tmpl")
 			if err != nil {
 				return myCache, err
 			}
 		}
+		fmt.Println("Adding Templates into TemplatesCache For Browser")
 		myCache[name] = ts
 
 	}
