@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/vikash-parashar/myapp/pkg/config"
+	"github.com/vikash-parashar/myapp/pkg/models"
 	"github.com/vikash-parashar/myapp/pkg/render"
 )
 
@@ -29,8 +30,12 @@ func NewHandlers(r *Repository) {
 
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 
-	render.RenderTemplate(w, "home", nil)
+	render.RenderTemplate(w, "home", &models.TemplateData{})
 }
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "about", nil)
+	stringmap := make(map[string]string)
+
+	stringmap["test"] = "Hello Again"
+
+	render.RenderTemplate(w, "about", &models.TemplateData{StringMap: stringmap})
 }

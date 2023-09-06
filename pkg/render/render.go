@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/vikash-parashar/myapp/pkg/config"
+	"github.com/vikash-parashar/myapp/pkg/models"
 )
 
 var app *config.AppConfig
@@ -17,7 +18,7 @@ func NewTemplate(a *config.AppConfig) {
 	app = a
 }
 
-func RenderTemplate(w http.ResponseWriter, tmpl string, data any) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, data *models.TemplateData) {
 	tmpl = tmpl + ".page.tmpl"
 	var tc map[string]*template.Template
 	var err error
@@ -46,7 +47,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, data any) {
 	//optional code if you need
 	buf := new(bytes.Buffer)
 
-	err  = t.Execute(buf, nil)
+	err = t.Execute(buf, data)
 	if err != nil {
 		log.Println(err)
 	}
