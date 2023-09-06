@@ -3,7 +3,9 @@ package main
 import (
 	"log"
 	"net/http"
+	"time"
 
+	"github.com/alexedwards/scs/v2"
 	"github.com/vikash-parashar/myapp/pkg/config"
 	"github.com/vikash-parashar/myapp/pkg/handlers"
 	"github.com/vikash-parashar/myapp/pkg/render"
@@ -13,8 +15,21 @@ const (
 	port = ":8080"
 )
 
+var sessionManager *scs.SessionManager
+
+var app config.AppConfig
+
 func main() {
-	app := config.AppConfig{}
+
+	// Initialize a new session manager and configure the session lifetime.
+	sessionManager = scs.New()
+	sessionManager.Lifetime = 24 * time.Hour
+	sessionManager.Cookie.Persist = true
+	sessionManager.Cookie.SameSite = http.SameSiteLaxMode
+	sessionManager.Cookie.Secure = app.InProduction
+
+	app.InProduction = false // keep false if you are in developer mod
+	app.SessionManager = sessionManager
 
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
