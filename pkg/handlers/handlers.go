@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/vikash-parashar/myapp/pkg/config"
@@ -29,9 +30,12 @@ func NewHandlers(r *Repository) {
 }
 
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
+	remoteIP := r.RemoteAddr
+	m.App.SessionManager.Put(context.Background(), "IP Address", remoteIP)
 
 	render.RenderTemplate(w, "home", &models.TemplateData{})
 }
+
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	stringmap := make(map[string]string)
 
