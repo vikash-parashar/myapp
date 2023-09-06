@@ -4,7 +4,9 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/vikash-parashar/myapp/pkg/config"
 	"github.com/vikash-parashar/myapp/pkg/handlers"
+	"github.com/vikash-parashar/myapp/pkg/render"
 )
 
 const (
@@ -12,6 +14,15 @@ const (
 )
 
 func main() {
+	app := config.AppConfig{}
+
+	tc, err := render.CreateTemplateCache()
+	if err != nil {
+		log.Fatal(err)
+	}
+	app.TemplateCache = tc
+
+	render.NewTemplate(&app)
 
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/about", handlers.About)
