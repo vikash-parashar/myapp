@@ -18,6 +18,10 @@ func NewTemplate(a *config.AppConfig) {
 	app = a
 }
 
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+	return td
+}
+
 func RenderTemplate(w http.ResponseWriter, tmpl string, data *models.TemplateData) {
 	tmpl = tmpl + ".page.tmpl"
 	var tc map[string]*template.Template
@@ -46,7 +50,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, data *models.TemplateDat
 
 	//optional code if you need
 	buf := new(bytes.Buffer)
-
+	data = AddDefaultData(data)
 	err = t.Execute(buf, data)
 	if err != nil {
 		log.Println(err)
