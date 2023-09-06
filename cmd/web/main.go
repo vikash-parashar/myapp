@@ -21,11 +21,13 @@ func main() {
 		log.Fatal(err)
 	}
 	app.TemplateCache = tc
-
+	app.UseCache = false
+	repo := handlers.NewRepo(&app)
+	handlers.NewHandlers(repo)
 	render.NewTemplate(&app)
 
-	http.HandleFunc("/", handlers.Home)
-	http.HandleFunc("/about", handlers.About)
+	http.HandleFunc("/", handlers.Repo.Home)
+	http.HandleFunc("/about", handlers.Repo.About)
 	log.Println("starting our application on port ", port)
 	if err := http.ListenAndServe(port, nil); err != nil {
 		log.Println("failed to start application")
