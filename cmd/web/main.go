@@ -4,7 +4,9 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/vikash-parashar/myapp/pkg/config"
 	"github.com/vikash-parashar/myapp/pkg/handlers"
+	"github.com/vikash-parashar/myapp/pkg/render"
 )
 
 const (
@@ -12,9 +14,20 @@ const (
 )
 
 func main() {
+	app := config.AppConfig{}
 
-	http.HandleFunc("/", handlers.Home)
-	http.HandleFunc("/about", handlers.About)
+	tc, err := render.CreateTemplateCache()
+	if err != nil {
+		log.Fatal(err)
+	}
+	app.TemplateCache = tc
+	app.UseCache = false
+	repo := handlers.NewRepo(&app)
+	handlers.NewHandlers(repo)
+	render.NewTemplate(&app)
+
+	http.HandleFunc("/", handlers.Repo.Home)
+	http.HandleFunc("/about", handlers.Repo.About)
 	log.Println("starting our application on port ", port)
 	if err := http.ListenAndServe(port, nil); err != nil {
 		log.Println("failed to start application")
